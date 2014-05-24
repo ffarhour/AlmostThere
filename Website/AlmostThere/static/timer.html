@@ -35,11 +35,21 @@
   <body>
   <script>
   //timer
-var seconds = 910;
+var seconds = 10;
 var originalseconds = seconds;
 function secondPassed() {
-    var minutes = Math.round((seconds - 30)/60);
-    var remainingSeconds = seconds % 60;
+    if (seconds>0){
+		var remainingSeconds = parseInt(seconds % 60);
+		var minutes = parseInt(seconds/60);
+	} else{
+		if(seconds>-60){
+		var remainingSeconds = parseInt(seconds % 60);
+		var minutes = "-" + parseInt(seconds/60);
+		}else{
+			var remainingSeconds = parseInt(seconds % 60);
+			var minutes = parseInt(seconds/60);
+		}
+	}
     if (remainingSeconds < 10) {
 		if (remainingSeconds >0){
         remainingSeconds = "0" + remainingSeconds; 
@@ -51,6 +61,9 @@ function secondPassed() {
 		}else{
 		remainingSeconds = -remainingSeconds;
 		}
+	}
+	if (remainingSeconds==0){
+		remainingSeconds = "00"
 	}
 	var absoluteseconds = parseFloat(remainingSeconds);
     document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
@@ -64,6 +77,7 @@ function secondPassed() {
 	if (seconds == 0) {
         //clearInterval(countdownTimer);
         document.getElementById('message').innerHTML = "TIME TO GO!!";
+		seconds--
     } else {
         seconds--;
 	}
@@ -71,12 +85,13 @@ function secondPassed() {
 		document.getElementById('message').innerHTML = "GET YOUR WALK ON";
 	}
 //progress bar...
-var progress = ((originalseconds - seconds)/originalseconds)*100;
-document.getElementById("progress").setAttribute("style",'width:' + progress + "%;");
-
+if(seconds>=0){
+	var progress = ((originalseconds - seconds)/originalseconds)*100;
+	document.getElementById("progress").setAttribute("style",'width:' + progress + "%;");
 //bus progress bar...
-var busprogress = progress - 10
-document.getElementById("busprogress").setAttribute("style",'margin-left:' + busprogress + "%;");
+	var busprogress = progress - 10
+	document.getElementById("busprogress").setAttribute("style",'margin-left:' + busprogress + "%;");
+}
 }
  
 var countdownTimer = setInterval('secondPassed()', 1000);
@@ -93,7 +108,7 @@ var countdownTimer = setInterval('secondPassed()', 1000);
  	 <div class="row">
      	<div class="col-xs-12 col-sm-7">
         	<h1>
-            <span id="countdown" class="timer"></span>
+            <span id="countdown" class="timer" style="font-size:200%"></span>
             </h1>
             </div>
          <div class="col-xs-12 col-sm-7">
